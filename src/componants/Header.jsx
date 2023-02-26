@@ -1,12 +1,25 @@
+import Link from "next/link";
 import React from "react";
+import { UserContext } from "@/context/userContext";
+import { useContext } from "react";
 
 function Header() {
+  const { user, setUser } = useContext(UserContext);
+
+  const handleLogout = () => {
+    fetch("http://localhost:3000/api/logout").then((res) => {
+      if (res.ok) {
+        setUser(null);
+        window.location.href = "/";
+      }
+    });
+  };
   return (
     <div>
       <nav className="navbar navbar-expand-lg navbar-dark fixed-top bg-primary">
         <div className="container-fluid">
           <a className="navbar-brand" href="#">
-            Navbar
+            NextBlog
           </a>
           <button
             className="navbar-toggler"
@@ -22,23 +35,37 @@ function Header() {
           <div className="collapse navbar-collapse" id="navbarText">
             <ul className="navbar-nav me-auto mb-2 mb-lg-0">
               <li className="nav-item">
-                <a className="nav-link active" aria-current="page" href="#">
+                <Link className="nav-link active" aria-current="page" href="/">
                   Home
-                </a>
+                </Link>
               </li>
               <li className="nav-item">
-                <a className="nav-link" href="#">
-                  About
-                </a>
+                <Link className="nav-link" href="addpost">
+                  New Post
+                </Link>
               </li>
               <li className="nav-item">
-                <a className="nav-link" href="#">
-                  Contact
-                </a>
+                <Link className="nav-link" href="login">
+                  Login
+                </Link>
+              </li>
+              <li className="nav-item">
+                <div className="nav-link" onClick={handleLogout} href="login">
+                  Logout
+                </div>
+              </li>
+              <li className="nav-item">
+                <Link className="nav-link" href="register">
+                  Register
+                </Link>
               </li>
             </ul>
-            <span className="navbar-text"><i className=" icon bi bi-facebook"></i> facebook</span>
-            <span className="navbar-text mx-2"><i className=" icon bi bi-github"></i> github</span>
+            <span className="navbar-text">
+              <i className=" icon bi bi-facebook"></i> facebook
+            </span>
+            <span className="navbar-text mx-2">
+              <i className=" icon bi bi-github"></i> github
+            </span>
           </div>
         </div>
       </nav>

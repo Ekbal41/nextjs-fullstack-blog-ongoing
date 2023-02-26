@@ -1,6 +1,6 @@
 function Footer() {
   return (
-    <div>
+    <div className="mt-5">
       <div className=" py-3  bg-light">
         <div className="container-fluid d-flex justify-content-between">
           <a className="navbar-brand mt-2" href="#">

@@ -1,11 +1,21 @@
 import Head from 'next/head'
-import Image from 'next/image'
-import { Inter } from 'next/font/google'
-import styles from '@/styles/Home.module.css'
+import { useEffect } from 'react'
+import {UserContext} from '@/context/userContext'
+import { useContext } from 'react'
 
-const inter = Inter({ subsets: ['latin'] })
 
 export default function Home() {
+
+  const { user, setUser } = useContext(UserContext)
+  useEffect(() => {
+    fetch('/api/user')
+    .then((res) => res.json())
+    .then((data) => {
+      console.log('user :'  , data)
+      setUser(data)
+    })
+   
+  },[])
   return (
     <>
       <Head>
@@ -15,13 +25,23 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
-        <div className="container top-110   d-flex mx-auto "
-       >
-          <div>
+        <div className="container top-110">
+          <ol className="breadcrumb">
+            <li className="breadcrumb-item active">
+              Home | 🖊️ <span className="text-capitalize">{user.name ? user.name : "Unregistered"}</span> 
+              </li>
+          </ol>
+        </div>
+
+        <div className="container   d-flex mx-auto "
+
+        >
+
+          <div className="">
             <div className="card border-light mb-3" style={{
               maxWidth: '50rem',
             }}>
-              <div className="card-header">First Blog Post <i className="bi bi-box-arrow-up-right"></i>
+              <div className="card-header text-primary">First Blog Post <i className="bi bi-box-arrow-up-right"></i>
                 <div className="float-end">
                   <i className=" icon bi bi-facebook"></i>
                   <i className=" icon bi bi-share-fill"></i>
@@ -40,7 +60,7 @@ export default function Home() {
             <div className="card border-light mb-3" style={{
               maxWidth: '50rem',
             }}>
-              <div className="card-header">First Blog Post <i className="bi bi-box-arrow-up-right"></i>
+              <div className="card-header  text-primary">First Blog Post <i className="bi bi-box-arrow-up-right"></i>
                 <div className="float-end">
                   <i className=" icon bi bi-facebook"></i>
                   <i className=" icon bi bi-share-fill"></i>
@@ -59,7 +79,7 @@ export default function Home() {
             <div className="card border-light mb-3" style={{
               maxWidth: '50rem',
             }}>
-              <div className="card-header">First Blog Post <i className="bi bi-box-arrow-up-right"></i>
+              <div className="card-header  text-primary">First Blog Post <i className="bi bi-box-arrow-up-right"></i>
                 <div className="float-end">
                   <i className=" icon bi bi-facebook"></i>
                   <i className=" icon bi bi-share-fill"></i>
@@ -81,14 +101,14 @@ export default function Home() {
               maxWidth: '20rem',
               marginLeft: '2rem',
             }}>
-              <div className="card-header"><i className=" icon bi bi-person-circle"></i> Jhon Doe</div>
+              <div className="card-header  text-primary"><i className=" icon bi bi-person-circle"></i><span className="text-capitalize">{user.name ? user.name : "Unregistered"}</span>  </div>
               <div className="card-body">
                 <h4 className="card-title"> Hello, Author here. </h4>
                 <p className="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
               </div>
             </div>
           </div>
-          </div>
+        </div>
       </main>
     </>
   )

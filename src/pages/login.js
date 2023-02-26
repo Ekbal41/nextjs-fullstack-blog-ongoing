@@ -1,7 +1,12 @@
 
+import axios from "axios"
 import { useState } from "react"
+import { UserContext } from "@/context/userContext"
+import { useContext } from "react"
+
 
 export const login = () => {
+    const { user, setUser } = useContext(UserContext)
 
     const [formData, setFormData] = useState({
        
@@ -10,7 +15,15 @@ export const login = () => {
     })
 
     const onFormSubmit = () => {
-        console.log(formData)
+        axios.post('http://localhost:3000/api/login', formData)
+        .then((res) => {
+            setUser(res.data)
+            console.log(res)
+        })
+        .catch((err) => {})
+
+        
+
         setFormData({
          
             email: '',
