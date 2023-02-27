@@ -7,6 +7,7 @@ import bcrypt from 'bcrypt'
 
 
 export default async function handler(req, res) {
+    if(req.query.id !== process.env.NEXT_PUBLIC_KEY) return res.status(200).json({message : "You are not authorized to access API"})
   
     const { email, password } = req.body
     console.log(req.body)
@@ -14,6 +15,7 @@ export default async function handler(req, res) {
     var passMatched = false;
 
     if (req.method === 'POST') {
+        if(req.query.id !== process.env.NEXT_PUBLIC_KEY) return res.status(200).json({message : "You are not authorized to access API"})
         //connect to detabse
         await connectToDatabase().then(() => console.log('connected')).catch((err) => console.log(err))
         //find the user in the database

@@ -22,14 +22,14 @@ export const login = () => {
 
     const onFormSubmit = () => {
         setIsLoading(true)
-        axios.post('http://localhost:3000/api/login', formData)
+        axios.post('http://localhost:3000/api/login?id=' + process.env.NEXT_PUBLIC_KEY, formData)
         .then((res) => {
             setMessage(res.data.message)
             setIsLoading(false)
             setTimeout(() => {
                 router.push('/')
             }, 1000)
-            console.log(res)
+           
         })
         .catch((err) => {})
 
@@ -53,7 +53,7 @@ export const login = () => {
         {message && <div className="toast show border border-primary rounded" role="alert" aria-live="assertive" aria-atomic="true"
                 style={{ position: 'absolute', top: '100px', right: '20px' }}
             >
-                <div class="toast-header rounded">
+                <div className="toast-header rounded">
                     <strong className="me-auto text-primary">Next Blog</strong>
                     <small>Just Now</small>
                     <button type="button" onClick={hideTost} class="btn-close ms-2 mb-1" data-bs-dismiss="toast" aria-label="Close">

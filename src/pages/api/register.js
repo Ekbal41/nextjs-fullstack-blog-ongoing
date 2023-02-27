@@ -3,10 +3,12 @@ import { hash } from 'bcrypt'
 import UserModel from '@/db/mongoose/model/usermodel'
 
 export default async function handler(req, res) {
+  if(req.query.id !== process.env.NEXT_PUBLIC_KEY) return res.status(200).json({message : "You are not authorized to access API"})
   const { name, email, password } = req.body
   var hashedPassword;
 
   if (req.method === 'POST') {
+    if(req.query.id !== process.env.NEXT_PUBLIC_KEY) return res.status(200).json({message : "You are not authorized to access API"})
     //make database connection
     await connectToDatabase()
     //hash the given password

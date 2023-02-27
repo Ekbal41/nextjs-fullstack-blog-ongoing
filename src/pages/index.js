@@ -3,19 +3,50 @@ import { useEffect } from 'react'
 import { UserContext } from '@/context/userContext'
 import { useContext } from 'react'
 import Link from 'next/link'
+import { useRouter } from 'next/router'
+import axios from 'axios'
+
+
+// export const getServerSideProps = async () => {
+//   console.log(process.env.NEXT_PUBLIC_KEY)
+
+//   fetch('http://localhost:3000/api/user?id=' + process.env.NEXT_PUBLIC_KEY)
+//     .then((res) => res.json())
+//     .then((data) => {
+//       console.log(data)
+//     })
+
+//   return {
+//     props: {
+     
+//     }
+//   }
+// }
+
+
+
 
 
 export default function Home() {
+ 
   const { user, setUser } = useContext(UserContext)
+  const router = useRouter()
+
+
+  
   useEffect(() => {
-    fetch('/api/user')
+    fetch('/api/user?id=' + process.env.NEXT_PUBLIC_KEY
+    )
       .then((res) => res.json())
       .then((data) => {
-        console.log('user :', data)
         setUser(data)
       })
 
-  }, [])
+  }, [
+    router.query.slug
+  ])
+
+
   return (
     <>
       <Head>
@@ -27,7 +58,7 @@ export default function Home() {
       <main>
 
 
-        <div className="container top-110 flex-sm-column flex-md-row flex-lg-row   d-flex mx-auto "
+        <div className="container top-110 flex-column flex-md-row  d-flex mx-auto "
 
         >
 
@@ -126,7 +157,7 @@ export default function Home() {
               maxWidth: '20rem',
               marginLeft: '2rem',
             }}>
-              <div className="card-header  text-primary"><i className=" icon bi bi-person-circle"></i><span className="text-capitalize">{user.name ? user.name : "Unregistered"}</span> <Link href="logout"> <i class=" fw-bold float-end bi bi-door-open"></i> </Link> </div>
+              <div className="card-header  text-primary"><i className=" icon bi bi-person-circle"></i><span className="text-capitalize">{user.name ? user.name : "Unregistered"}</span> <Link href="logout"> <i className=" fw-bold float-end bi bi-door-open"></i> </Link> </div>
               <div className="card-body border border-primary">
 
                 <img
@@ -138,7 +169,7 @@ export default function Home() {
                   }}
                   className=" mx-auto d-block" alt="..."></img>
                 <h5 className="card-title text-center mt-2 text-capitalize">{user.name}</h5>
-                <div classname=" "
+                <div className=" "
                   style={{
                     marginLeft: '90px',
                     marginBottom: '10px',

@@ -4,7 +4,7 @@ function Footer() {
       <div className=" py-3  bg-light">
         <div className="container-fluid d-flex justify-content-between">
           <a className="navbar-brand mt-2 text-uppercase" href="#">
-           Next Blog | all ridhts reserved | copyright 2023
+           Next Blog | copyright 2023
           </a>
 
           <span className="navbar-text">

@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 const connectToDatabase = async () => {
     try {
         mongoose.set('strictQuery', true);
-       mongoose.connect("mongodb+srv://ekbal412:1234@cluster0.zdgxnhe.mongodb.net/nexttwo?retryWrites=true&w=majority", {
+       mongoose.connect(process.env.MONGODB_URL, {
             useNewUrlParser: true,
             useUnifiedTopology: true
         });

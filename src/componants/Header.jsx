@@ -7,7 +7,7 @@ function Header() {
   const { user, setUser } = useContext(UserContext);
 
   const handleLogout = () => {
-    fetch("http://localhost:3000/api/logout").then((res) => {
+    fetch("http://localhost:3000/api/logout?id=" +  process.env.NEXT_PUBLIC_KEY).then((res) => {
       if (res.ok) {
         setUser(null);
         window.location.href = "/";
@@ -35,7 +35,7 @@ function Header() {
             </button>
             <div className="collapse navbar-collapse" id="navbarText">
               {user.name ? (
-                <ui className="navbar-nav me-auto mb-2 mb-lg-0">
+                <ul className="navbar-nav me-auto mb-2 mb-lg-0">
                   <li className="nav-item">
                     <Link
                       className="nav-link active"
@@ -59,7 +59,7 @@ function Header() {
                       Logout
                     </div>
                   </li>
-                </ui>
+                </ul>
               ) : (
                 <ul className="navbar-nav me-auto mb-2 mb-lg-0">
                   <li className="nav-item">
