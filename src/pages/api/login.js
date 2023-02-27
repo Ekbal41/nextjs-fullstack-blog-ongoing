@@ -47,7 +47,7 @@ export default async function handler(req, res) {
                 catch (err) {
                     console.log(err)
                 }
-                return res.status(200).json(isRegisteredUser)
+                return res.status(200).json({ message: 'Logged in successfully' })
             }
             else {
                 return res.status(200).json({ message: 'Wrong cradantials or user not registered' })

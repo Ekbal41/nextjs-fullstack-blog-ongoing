@@ -1,11 +1,10 @@
-
 import { useState } from "react"
 import axios from "axios"
-import Image from "next/image"
 import { useRouter } from "next/router"
 
 export const register = () => {
     const router = useRouter()
+    const [isLoading, setIsLoading] = useState(false)
 
     const [formData, setFormData] = useState({
         name: '',
@@ -16,10 +15,12 @@ export const register = () => {
     const [message, setMessage] = useState('')
 
     const onFormSubmit = () => {
+        setIsLoading(true)
         //send post request to server
         axios.post('/api/register', formData)
             .then(res => {
                 setMessage(res.data.message)
+                setIsLoading(false)
                 setTimeout(() => {
                     router.push('/login')
                 }, 1000)
@@ -63,14 +64,14 @@ export const register = () => {
                 </div>
 
             </div>}
-           
+
             <div className="container w-50 top-110 border border-primary rounded p-3">
                 <h1 className="text-center text-uppercase text-primary fs-1">Create account</h1>
 
 
                 <div className="mb-3">
                     <label className="form-label">Your Name</label>
-                    <input type="text" value={formData.name}  className="form-control" onChange={(e) => setFormData({
+                    <input type="text" value={formData.name} className="form-control" onChange={(e) => setFormData({
                         ...formData,
                         name: e.target.value
                     })} placeholder="" aria-describedby="helpId" />
@@ -78,7 +79,7 @@ export const register = () => {
                 </div>
                 <div className="mb-3">
                     <label className="form-label">Your Mail</label>
-                    <input type="email" value={formData.email}  className="form-control" onChange={(e) => setFormData({
+                    <input type="email" value={formData.email} className="form-control" onChange={(e) => setFormData({
                         ...formData,
                         email: e.target.value
                     })} placeholder="" aria-describedby="helpId" />
@@ -86,7 +87,7 @@ export const register = () => {
                 </div>
                 <div className="mb-3">
                     <label className="form-label">Set password</label>
-                    <input type="password" value={formData.password}  className="form-control" onChange={(e) => setFormData({
+                    <input type="password" value={formData.password} className="form-control" onChange={(e) => setFormData({
                         ...formData,
                         password: e.target.value
                     })} placeholder="" aria-describedby="helpId" />
@@ -95,7 +96,11 @@ export const register = () => {
 
 
 
-                <button onClick={onFormSubmit} className=" btn btn-primary">Register</button>
+                <button onClick={onFormSubmit} className=" btn btn-primary">
+                    {
+                        isLoading ? 'Loading...' : 'Register'
+                    }
+                </button>
 
             </div>
 

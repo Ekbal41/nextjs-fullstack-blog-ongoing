@@ -15,61 +15,87 @@ function Header() {
     });
   };
   return (
-    <div>
-      <nav className="navbar navbar-expand-lg navbar-dark fixed-top bg-primary">
-        <div className="container-fluid">
-          <a className="navbar-brand" href="#">
-            NextBlog
-          </a>
-          <button
-            className="navbar-toggler"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#navbarText"
-            aria-controls="navbarText"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
-          >
-            <span className="navbar-toggler-icon"></span>
-          </button>
-          <div className="collapse navbar-collapse" id="navbarText">
-            <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-              <li className="nav-item">
-                <Link className="nav-link active" aria-current="page" href="/">
-                  Home
-                </Link>
-              </li>
-              <li className="nav-item">
-                <Link className="nav-link" href="addpost">
-                  New Post
-                </Link>
-              </li>
-              <li className="nav-item">
-                <Link className="nav-link" href="login">
-                  Login
-                </Link>
-              </li>
-              <li className="nav-item">
-                <div className="nav-link" onClick={handleLogout} href="login">
-                  Logout
-                </div>
-              </li>
-              <li className="nav-item">
-                <Link className="nav-link" href="register">
-                  Register
-                </Link>
-              </li>
-            </ul>
-            <span className="navbar-text">
-              <i className=" icon bi bi-facebook"></i> facebook
-            </span>
-            <span className="navbar-text mx-2">
-              <i className=" icon bi bi-github"></i> github
-            </span>
+    <>
+      <div>
+        <nav className="navbar navbar-expand-lg navbar-dark fixed-top bg-primary">
+          <div className="container-fluid">
+            <Link className="navbar-brand" href="/">
+              NextBlog
+            </Link>
+            <button
+              className="navbar-toggler"
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#navbarText"
+              aria-controls="navbarText"
+              aria-expanded="false"
+              aria-label="Toggle navigation"
+            >
+              <span className="navbar-toggler-icon"></span>
+            </button>
+            <div className="collapse navbar-collapse" id="navbarText">
+              {user.name ? (
+                <ui className="navbar-nav me-auto mb-2 mb-lg-0">
+                  <li className="nav-item">
+                    <Link
+                      className="nav-link active"
+                      aria-current="page"
+                      href="/"
+                    >
+                      Home
+                    </Link>
+                  </li>
+                  <li
+                    className="nav-item"
+                    style={{
+                      cursor: "pointer",
+                    }}
+                  >
+                    <div
+                      className="nav-link"
+                      onClick={handleLogout}
+                      href="login"
+                    >
+                      Logout
+                    </div>
+                  </li>
+                </ui>
+              ) : (
+                <ul className="navbar-nav me-auto mb-2 mb-lg-0">
+                  <li className="nav-item">
+                    <Link
+                      className="nav-link active"
+                      aria-current="page"
+                      href="/"
+                    >
+                      Home
+                    </Link>
+                  </li>
+                  <li className="nav-item">
+                    <Link className="nav-link" href="login">
+                      Login
+                    </Link>
+                  </li>
+
+                  <li className="nav-item">
+                    <Link className="nav-link" href="register">
+                      Register
+                    </Link>
+                  </li>
+                </ul>
+              )}
+
+              <span className="navbar-text">
+                <i className=" icon bi bi-facebook"></i> facebook
+              </span>
+              <span className="navbar-text mx-2">
+                <i className=" icon bi bi-github"></i> github
+              </span>
+            </div>
           </div>
-        </div>
-      </nav>
-    </div>
+        </nav>
+      </div>
+    </>
   );
 }
 

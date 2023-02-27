@@ -1,4 +1,5 @@
 
+import Link from "next/link"
 import { useState } from "react"
 
 export const addpost = () => {
@@ -21,12 +22,21 @@ export const addpost = () => {
     <>
       <div className="container top-110">
         <ol className="breadcrumb">
-          <li className="breadcrumb-item active">Home</li>
-          <li className="breadcrumb-item active">Add Post</li>
+          <li className="breadcrumb-item ">
+            <Link href="/">
+              Home
+            </Link>
+          </li>
+          <li className="breadcrumb-item ">
+            <Link  href="addpost">
+            Create New Post
+          </Link>
+          </li>
         </ol>
+        
       </div>
       <div className="container w-75  border border-primary rounded p-3">
-        <h1 className="text-center text-uppercase text-primary fs-1">Add Post</h1>
+        {/* <h1 className="text-center text-uppercase text-primary fs-1">Add Post</h1> */}
         <div className="mb-3">
           <label className="form-label">Title</label>
           <input type="text" value={post.title} id="" className="form-control" onChange={(e) => setPost({
