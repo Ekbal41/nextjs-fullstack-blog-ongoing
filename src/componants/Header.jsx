@@ -1,15 +1,30 @@
 import Link from "next/link";
-import React from "react";
-import { UserContext } from "@/context/userContext";
-import { useContext } from "react";
+import React, { useState } from "react";
+import { useEffect } from "react";
+import { useRouter } from "next/router";
 
 function Header() {
-  const { user, setUser } = useContext(UserContext);
+  const [user, setUser] = useState(null);
+  const router = useRouter();
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const user = localStorage.getItem("user");
+      if (user) {
+        setUser(user);
+      }
+    }
+  }, [router.asPath]);
 
   const handleLogout = () => {
-    fetch("http://localhost:3000/api/logout?id=" +  process.env.NEXT_PUBLIC_KEY).then((res) => {
+    fetch(
+      "http://localhost:3000/api/logout?id=" + process.env.NEXT_PUBLIC_KEY
+    ).then((res) => {
       if (res.ok) {
-        setUser(null);
+        if (typeof window !== "undefined") {
+          const user = localStorage.removeItem("user");
+        }
+
         window.location.href = "/";
       }
     });
@@ -34,7 +49,7 @@ function Header() {
               <span className="navbar-toggler-icon"></span>
             </button>
             <div className="collapse navbar-collapse" id="navbarText">
-              {user.name ? (
+              {user ? (
                 <ul className="navbar-nav me-auto mb-2 mb-lg-0">
                   <li className="nav-item">
                     <Link

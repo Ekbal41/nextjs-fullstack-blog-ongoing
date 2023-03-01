@@ -1,6 +1,8 @@
 function Footer() {
   return (
-    <div className="mt-5">
+    <div className="mt-5" style={{
+      minWidth: 800,
+    }}>
       <div className=" py-3  bg-light">
         <div className="container-fluid d-flex justify-content-between">
           <a className="navbar-brand mt-2 text-uppercase" href="#">

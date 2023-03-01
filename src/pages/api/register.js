@@ -1,5 +1,6 @@
 import { closeDbConnection, connectToDatabase } from '@/db/mongodb/connectToDatabase'
 import { hash } from 'bcrypt'
+
 import UserModel from '@/db/mongoose/model/usermodel'
 
 export default async function handler(req, res) {

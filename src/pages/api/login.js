@@ -10,7 +10,7 @@ export default async function handler(req, res) {
     if(req.query.id !== process.env.NEXT_PUBLIC_KEY) return res.status(200).json({message : "You are not authorized to access API"})
   
     const { email, password } = req.body
-    console.log(req.body)
+   
     var isRegisteredUser;
     var passMatched = false;
 
@@ -21,7 +21,7 @@ export default async function handler(req, res) {
         //find the user in the database
         const user = await UserModel.findOne({ email })
         isRegisteredUser = user;
-        console.log(isRegisteredUser.name)
+       
 
 
         if (!isRegisteredUser) {
@@ -32,7 +32,7 @@ export default async function handler(req, res) {
 
             // Compare password
             await bcrypt.compare(password, isRegisteredUser.password).then((isMatch) => {
-                console.log('its matched' + isMatch)
+               
                 passMatched = isMatch;
             }).catch((err) => console.log(err));
 
@@ -43,13 +43,17 @@ export default async function handler(req, res) {
                     //create a jwt token for user
                     const token = jwt.sign({ id: isRegisteredUser._id }, "lreytiuhfurf465675$#45%%3^5hjefgjhrb", { expiresIn: '1d' });
                     //save the token to headers cookie
-                    res.setHeader('Set-Cookie', cookie.serialize('token', token, { httpOnly: true, maxAge: 60 * 60 * 24 * 7 }));
+                    res.setHeader('Set-Cookie', cookie.serialize('token', token, 
+                    { httpOnly: true, 
+                        maxAge: 60 * 60 * 24 * 7 ,
+                        path: '/'
+                    }));
 
                 }
                 catch (err) {
                     console.log(err)
                 }
-                return res.status(200).json({ message: 'Logged in successfully' })
+                return res.status(200).json({ user: isRegisteredUser, message: 'Login successfull' })
             }
             else {
                 return res.status(200).json({ message: 'Wrong cradantials or user not registered' })

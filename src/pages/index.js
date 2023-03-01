@@ -1,50 +1,29 @@
 import Head from 'next/head'
-import { useEffect } from 'react'
-import { UserContext } from '@/context/userContext'
-import { useContext } from 'react'
+import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import axios from 'axios'
-
-
-// export const getServerSideProps = async () => {
-//   console.log(process.env.NEXT_PUBLIC_KEY)
-
-//   fetch('http://localhost:3000/api/user?id=' + process.env.NEXT_PUBLIC_KEY)
-//     .then((res) => res.json())
-//     .then((data) => {
-//       console.log(data)
-//     })
-
-//   return {
-//     props: {
-     
-//     }
-//   }
-// }
+import moment from 'moment/moment'
 
 
 
-
-
-export default function Home() {
- 
-  const { user, setUser } = useContext(UserContext)
+export default function Home({ posts }) {
+  const [user, setUser] = useState('')
   const router = useRouter()
 
+  const [allPosts, setallPosts] = useState([])
 
-  
   useEffect(() => {
-    fetch('/api/user?id=' + process.env.NEXT_PUBLIC_KEY
-    )
-      .then((res) => res.json())
-      .then((data) => {
-        setUser(data)
-      })
+    setallPosts(posts.reverse())
 
-  }, [
-    router.query.slug
-  ])
+    if (typeof window !== "undefined") {
+      const user = localStorage.getItem("user");
+      if (user) {
+        setUser(user);
+      }
+    }
+
+  }, [router.asPath])
+
 
 
   return (
@@ -64,9 +43,11 @@ export default function Home() {
 
 
           <div className=" "
-          style={{
-            marginRight: '3rem',
-          }}
+            style={{
+              marginRight: '3rem',
+              minWidth: '50rem',
+              minHeight: '100vh',
+            }}
           >
             <div className="card border-light mb-3" style={{
               maxWidth: '50rem',
@@ -75,7 +56,8 @@ export default function Home() {
                 <ol className="breadcrumb">
 
                   <li className="breadcrumb-item active">
-                    Home | 🖊️ <span className="text-capitalize">{user.name ? user.name : "Unregistered"}</span>
+
+                    Home | 🖊️ <span className="text-capitalize">{user ? user : "Unregistered"}</span>
                   </li>
 
                 </ol>
@@ -83,7 +65,7 @@ export default function Home() {
 
                 >
                   {
-                    user.name ? (
+                    user ? (
                       <Link className="nav-link" href="addpost">
                         Create New Post
                       </Link>
@@ -96,68 +78,54 @@ export default function Home() {
                 </button>
               </div>
 
+              {
+                posts.length > 0 ? (allPosts.map((post, index) => (
+                  <div key={index}>
 
-              <div className="card-header text-primary fw-bold">First Blog Post <i className="bi bi-box-arrow-up-right"></i>
-                <div className="float-end">
-                  <i className=" icon bi bi-facebook"></i>
-                  <i className=" icon bi bi-share-fill"></i>
-                  <i className=" icon bi bi-bookmark-plus-fill"></i>
-                  {/* <i class="bi bi-bookmark-check-fill"></i> */}
-                </div>
-              </div>
-              <div className="card-body">
-                <p className="card-text">
-                  Raw denim you probably haven't heard of them jean shorts Austin. Nesciunt tofu stumptown aliqua, retro synth master cleanse. Mustache cliche tempor, williamsburg carles vegan helvetica. Reprehenderit butcher retro keffiyeh dreamcatcher synth. Cosby sweater eu banh mi, qui irure terry richardson ex squid. Aliquip placeat salvia cillum iphone. Seitan aliquip quis cardigan american apparel, butcher voluptate nisi qui.
-                </p>
+                    <div className="card-header text-primary fw-bold">
+                      {post.title}
 
-              </div>
+                      <i className="bi bi-box-arrow-up-right mx-2"></i>
+                      <div className="float-end">
 
-            </div>
-            <div className="card border-light mb-3" style={{
-              maxWidth: '50rem',
-            }}>
-              <div className="card-header  text-primary fw-bold">First Blog Post <i className="bi bi-box-arrow-up-right"></i>
-                <div className="float-end">
-                  <i className=" icon bi bi-facebook"></i>
-                  <i className=" icon bi bi-share-fill"></i>
-                  <i className=" icon bi bi-bookmark-plus-fill"></i>
-                  {/* <i class="bi bi-bookmark-check-fill"></i> */}
-                </div>
-              </div>
-              <div className="card-body">
-                <p className="card-text">
-                  Raw denim you probably haven't heard of them jean shorts Austin. Nesciunt tofu stumptown aliqua, retro synth master cleanse. Mustache cliche tempor, williamsburg carles vegan helvetica. Reprehenderit butcher retro keffiyeh dreamcatcher synth. Cosby sweater eu banh mi, qui irure terry richardson ex squid. Aliquip placeat salvia cillum iphone. Seitan aliquip quis cardigan american apparel, butcher voluptate nisi qui.
-                </p>
+                        <span className="mx-2">
+                          {moment(post.date).fromNow()}
+                        </span>
+                        <span class="text-capitalize "> By {post.author.name} |</span>
 
-              </div>
+                        <i className=" icon bi bi-facebook"></i>
+                        <i className=" icon bi bi-share-fill"></i>
+                        <i className=" icon bi bi-bookmark-plus-fill"></i>
+                        {/* <i class="bi bi-bookmark-check-fill"></i> */}
+                      </div>
+                    </div>
+                    <div className="card-body">
+                      <p className="card-text">
+                        {post.content}
+                      </p>
 
-            </div>
-            <div className="card border-light mb-3" style={{
-              maxWidth: '50rem',
-            }}>
-              <div className="card-header  text-primary fw-bold">First Blog Post <i className="bi bi-box-arrow-up-right"></i>
-                <div className="float-end">
-                  <i className=" icon bi bi-facebook"></i>
-                  <i className=" icon bi bi-share-fill"></i>
-                  <i className=" icon bi bi-bookmark-plus-fill"></i>
-                  {/* <i class="bi bi-bookmark-check-fill"></i> */}
-                </div>
-              </div>
-              <div className="card-body">
-                <p className="card-text">
-                  Raw denim you probably haven't heard of them jean shorts Austin. Nesciunt tofu stumptown aliqua, retro synth master cleanse. Mustache cliche tempor, williamsburg carles vegan helvetica. Reprehenderit butcher retro keffiyeh dreamcatcher synth. Cosby sweater eu banh mi, qui irure terry richardson ex squid. Aliquip placeat salvia cillum iphone. Seitan aliquip quis cardigan american apparel, butcher voluptate nisi qui.
-                </p>
+                    </div>
+                  </div>
+                )))
+                  : (
+                    <div className=" text-center mt-5 text-primary fw-bold">No Posts Found</div>
+                  )
 
-              </div>
+              }
+
+
 
             </div>
+
+
           </div>
           <div>
-            <div className="card border-primary mb-3 rounded mx-auto" style={{
+            <div className="card border-primary mb-3 rounded" style={{
               maxWidth: '20rem',
-              marginLeft: '2rem',
+            
+
             }}>
-              <div className="card-header  text-primary"><i className=" icon bi bi-person-circle"></i><span className="text-capitalize">{user.name ? user.name : "Unregistered"}</span> <Link href="logout"> <i className=" fw-bold float-end bi bi-door-open"></i> </Link> </div>
+              <div className="card-header  text-primary"><i className=" icon bi bi-person-circle"></i><span className="text-capitalize">{user ? user : "Unregistered"}</span> <Link href="logout"> <i className=" fw-bold float-end bi bi-door-open"></i> </Link> </div>
               <div className="card-body border border-primary">
 
                 <img
@@ -168,10 +136,10 @@ export default function Home() {
                     border: "2px solid #593196",
                   }}
                   className=" mx-auto d-block" alt="..."></img>
-                <h5 className="card-title text-center mt-2 text-capitalize">{user.name}</h5>
+                <h5 className="card-title text-center mt-2 text-capitalize">{user}</h5>
                 <div className=" "
                   style={{
-                    marginLeft: '90px',
+                    marginLeft: '70px',
                     marginBottom: '10px',
                   }}
                 >
@@ -187,4 +155,38 @@ export default function Home() {
       </main>
     </>
   )
+}
+
+export const getServerSideProps = async (context) => {
+  //get the user from the server
+  const token = context.req.cookies.token || "";
+
+  console.log('token hocche', token)
+
+  var posts;
+
+  if (token) {
+
+    const res = await fetch('http://localhost:3000/api/posts?id=' + process.env.NEXT_PUBLIC_KEY, {
+      method: 'GET',
+      headers: {
+        cookie: "token=" + token,
+      }
+    })
+    const data = await res.json()
+    posts = data.posts
+
+  }
+  if (!token) {
+    posts = []
+  }
+
+
+  return {
+    props: {
+      posts: posts
+
+    }
+  }
+
 }

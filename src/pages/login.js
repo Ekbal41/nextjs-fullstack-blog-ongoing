@@ -25,6 +25,12 @@ export const login = () => {
         axios.post('http://localhost:3000/api/login?id=' + process.env.NEXT_PUBLIC_KEY, formData)
         .then((res) => {
             setMessage(res.data.message)
+            
+            if(res.data.user) {
+                if(window !== undefined) {
+                    localStorage.setItem('user',(res.data.user.name))
+                }
+            }
             setIsLoading(false)
             setTimeout(() => {
                 router.push('/')
